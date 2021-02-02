@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from 'react-redux';
 const Navbar = () => {
   return (
     <nav>
@@ -17,4 +18,8 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+function mapStateToProps(state) {
+  console.log(state);
+}
+
+export default connect(mapStateToProps)(Navbar);
