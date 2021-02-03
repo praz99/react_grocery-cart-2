@@ -1,30 +1,30 @@
-import { DECREASE, INCREASE, REMOVE, CLEAR_CART, GET_TOTALS } from './actions';
+import { DECREASE, INCREASE, REMOVE, CLEAR_CART, GET_TOTALS, TOGGLE_AMOUNT } from './actions';
 
 function reducer(state, action) {
   if (action.type === CLEAR_CART) {
     return { ...state, cart: [] };
   }
 
-  if(action.type === DECREASE) {
-    let tempCart = state.cart.map((cartItem) => {
-      if(cartItem.id === action.payload.id) {
-        cartItem = {...cartItem, amount: cartItem.amount - 1 };
-      }
-      return cartItem;
-    });
+  // if(action.type === DECREASE) {
+  //   let tempCart = state.cart.map((cartItem) => {
+  //     if(cartItem.id === action.payload.id) {
+  //       cartItem = {...cartItem, amount: cartItem.amount - 1 };
+  //     }
+  //     return cartItem;
+  //   });
 
-    return { ...state, cart: tempCart };
-  }
+  //   return { ...state, cart: tempCart };
+  // }
 
-  if(action.type === INCREASE) {
-    let tempCart = state.cart.map((cartItem) => {
-      if(cartItem.id === action.payload.id) {
-        cartItem = {...cartItem, amount: cartItem.amount + 1 };
-      }
-      return cartItem;
-    });
-    return {...state, cart: tempCart};
-  }
+  // if(action.type === INCREASE) {
+  //   let tempCart = state.cart.map((cartItem) => {
+  //     if(cartItem.id === action.payload.id) {
+  //       cartItem = {...cartItem, amount: cartItem.amount + 1 };
+  //     }
+  //     return cartItem;
+  //   });
+  //   return {...state, cart: tempCart};
+  // }
 
   if(action.type === REMOVE) {
     return {...state, cart: state.cart.filter(cartItem => cartItem.id !== action.payload.id)}
@@ -45,6 +45,20 @@ function reducer(state, action) {
     });
     total = parseFloat(total.toFixed(2));
     return { ...state, total, amount };
+  }
+
+  if(action.type === TOGGLE_AMOUNT) {
+    return { ...state, cart:state.cart.map(cartItem => {
+      if(cartItem.id === action.payload.id) {
+        if(action.payload.toggle === 'inc') {
+          return cartItem = { ...cartItem, amount: cartItem.amount + 1}
+        }
+        if(action.payload.toggle === 'dec') {
+          return cartItem = { ...cartItem, amount: cartItem.amount - 1}
+        }
+      }
+      return cartItem;
+    }) }
   }
   return state;
 }
